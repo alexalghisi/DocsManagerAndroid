@@ -112,7 +112,6 @@ public class NoteManager extends Observable {
 
   public Cancellable addDocAsync(
           final Doc doc,
-          final String noteId,
           final OnSuccessListener<Doc> successListener,
           final OnErrorListener errorListener) {
     Log.d(TAG, "addDocAsync...");

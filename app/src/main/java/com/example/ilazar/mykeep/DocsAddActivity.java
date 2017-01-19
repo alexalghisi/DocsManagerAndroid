@@ -37,12 +37,11 @@ public class DocsAddActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Doc doc = new Doc();
-                doc.setId("123");
                 doc.setTitle(((EditText)findViewById(R.id.editTitle)).getText().toString());
                 doc.setText(((EditText)findViewById(R.id.editText)).getText().toString());
                 doc.setUserId("test");
                 doc.setVersion(1);
-                mApp.getNoteManager().addDocAsync(doc, doc.getId(),
+                mApp.getNoteManager().addDocAsync(doc,
                     new OnSuccessListener<Doc>() {
                         @Override
                         public void onSuccess(final Doc docs) {
