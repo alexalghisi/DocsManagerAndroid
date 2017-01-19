@@ -12,7 +12,7 @@
     android:supportsRtl="true"
     android:theme="@style/AppTheme">
     <activity
-      android:name=".NoteListActivity"
+      android:name=".DocsListActivity"
       android:label="@string/app_name"
       android:theme="@style/AppTheme.NoActionBar">
 
@@ -24,22 +24,22 @@
       <!-- </intent-filter> -->
     </activity>
     <activity
-      android:name=".NoteDetailActivity"
+      android:name=".DocsDetailActivity"
       android:label="@string/title_note_detail"
-      android:parentActivityName=".NoteListActivity"
+      android:parentActivityName=".DocsListActivity"
       android:theme="@style/AppTheme.NoActionBar">
       <meta-data
         android:name="android.support.PARENT_ACTIVITY"
-        android:value="com.example.ilazar.mykeep.NoteListActivity"/>
+        android:value="com.example.ilazar.mykeep.DocsListActivity"/>
     </activity>
     <activity
         android:name=".DocsAddActivity"
         android:label="Add new doc"
-        android:parentActivityName=".NoteListActivity"
+        android:parentActivityName=".DocsListActivity"
         android:theme="@style/AppTheme.NoActionBar">
       <meta-data
           android:name="android.support.PARENT_ACTIVITY"
-          android:value="com.example.ilazar.mykeep.NoteListActivity"/>
+          android:value="com.example.ilazar.mykeep.DocsListActivity"/>
     </activity>
     <activity
       android:name=".LoginActivity"

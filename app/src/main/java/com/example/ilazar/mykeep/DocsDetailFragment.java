@@ -19,12 +19,12 @@ import com.example.ilazar.mykeep.util.OnSuccessListener;
 
 /**
  * A fragment representing a single Doc detail screen.
- * This fragment is either contained in a {@link NoteListActivity}
- * in two-pane mode (on tablets) or a {@link NoteDetailActivity}
+ * This fragment is either contained in a {@link DocsListActivity}
+ * in two-pane mode (on tablets) or a {@link DocsDetailActivity}
  * on handsets.
  */
-public class NoteDetailFragment extends Fragment {
-    public static final String TAG = NoteDetailFragment.class.getSimpleName();
+public class DocsDetailFragment extends Fragment {
+    public static final String TAG = DocsDetailFragment.class.getSimpleName();
 
     /**
      * The fragment argument representing the item ID that this fragment represents.
@@ -46,7 +46,7 @@ public class NoteDetailFragment extends Fragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public NoteDetailFragment() {
+    public DocsDetailFragment() {
     }
 
     @Override

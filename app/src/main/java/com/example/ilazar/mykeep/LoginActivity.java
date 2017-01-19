@@ -87,6 +87,6 @@ public class LoginActivity extends AppCompatActivity {
   }
 
   private void startNoteListActivity() {
-    startActivity(new Intent(this, NoteListActivity.class));
+    startActivity(new Intent(this, DocsListActivity.class));
   }
 }

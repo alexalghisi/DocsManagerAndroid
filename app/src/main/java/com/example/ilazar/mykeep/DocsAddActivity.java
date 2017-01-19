@@ -1,11 +1,8 @@
 package com.example.ilazar.mykeep;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -14,11 +11,8 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.ilazar.mykeep.content.Doc;
-import com.example.ilazar.mykeep.content.User;
 import com.example.ilazar.mykeep.util.OnErrorListener;
 import com.example.ilazar.mykeep.util.OnSuccessListener;
-
-import java.util.List;
 
 /**
  * Created by alessandro on 19.01.2017.
@@ -78,7 +72,7 @@ public class DocsAddActivity extends AppCompatActivity {
 
                 // Switch back activity
                 Context context = v.getContext();
-                Intent intent = new Intent(context, NoteListActivity.class);
+                Intent intent = new Intent(context, DocsListActivity.class);
                 context.startActivity(intent);
             }
         });

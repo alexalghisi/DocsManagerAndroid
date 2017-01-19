@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -26,13 +25,13 @@ import java.util.List;
  * An activity representing a list of Notes. This activity
  * has different presentations for handset and tablet-size devices. On
  * handsets, the activity presents a list of items, which when touched,
- * lead to a {@link NoteDetailActivity} representing
+ * lead to a {@link DocsDetailActivity} representing
  * item details. On tablets, the activity presents the list of items and
  * item details side-by-side using two vertical panes.
  */
-public class NoteListActivity extends AppCompatActivity {
+public class DocsListActivity extends AppCompatActivity {
 
-    public static final String TAG = NoteListActivity.class.getSimpleName();
+    public static final String TAG = DocsListActivity.class.getSimpleName();
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet device.
@@ -210,16 +209,16 @@ public class NoteListActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     if (mTwoPane) {
                         Bundle arguments = new Bundle();
-                        arguments.putString(NoteDetailFragment.NOTE_ID, holder.mItem.getId());
-                        NoteDetailFragment fragment = new NoteDetailFragment();
+                        arguments.putString(DocsDetailFragment.NOTE_ID, holder.mItem.getId());
+                        DocsDetailFragment fragment = new DocsDetailFragment();
                         fragment.setArguments(arguments);
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.note_detail_container, fragment)
                                 .commit();
                     } else {
                         Context context = v.getContext();
-                        Intent intent = new Intent(context, NoteDetailActivity.class);
-                        intent.putExtra(NoteDetailFragment.NOTE_ID, holder.mItem.getId());
+                        Intent intent = new Intent(context, DocsDetailActivity.class);
+                        intent.putExtra(DocsDetailFragment.NOTE_ID, holder.mItem.getId());
                         context.startActivity(intent);
                     }
                 }
