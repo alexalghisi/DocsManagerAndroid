@@ -9,6 +9,7 @@ import com.example.ilazar.mykeep.R;
 import com.example.ilazar.mykeep.content.Doc;
 import com.example.ilazar.mykeep.content.User;
 import com.example.ilazar.mykeep.net.mapping.CredentialsWriter;
+import com.example.ilazar.mykeep.net.mapping.DocsWriter;
 import com.example.ilazar.mykeep.net.mapping.IssueReader;
 import com.example.ilazar.mykeep.net.mapping.NoteReader;
 import com.example.ilazar.mykeep.net.mapping.NoteWriter;
@@ -18,6 +19,8 @@ import com.example.ilazar.mykeep.util.Cancellable;
 import com.example.ilazar.mykeep.util.CancellableCallable;
 import com.example.ilazar.mykeep.util.OnErrorListener;
 import com.example.ilazar.mykeep.util.OnSuccessListener;
+
+
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -145,6 +148,42 @@ public class NoteRestClient {
         },
         successListener,
         errorListener
+    );
+  }
+
+  public Cancellable addAsync(final Doc doc,
+                              final OnSuccessListener<Doc> successListener,
+                              final OnErrorListener errorListener) {
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    JsonWriter writer = null;
+    try {
+      writer = new JsonWriter(new OutputStreamWriter(baos, UTF_8));
+      new DocsWriter().write(doc, writer);
+      writer.close();
+    } catch (Exception e) {
+      Log.e(TAG, "addDoc failed", e);
+      throw new ResourceException(e);
+    }
+
+    Request.Builder builder = new Request.Builder()
+            .url(String.format("%s/add", mDocsUrl))
+            .post(RequestBody.create(MediaType.parse(APPLICATION_JSON), baos.toByteArray()));
+
+    return new CancellableOkHttpAsync<Doc>(
+            builder.build(),
+            new ResponseReader<Doc>() {
+              @Override
+              public Doc read(Response response) throws Exception {
+                JsonReader reader = new JsonReader(new InputStreamReader(response.body().byteStream(), UTF_8));
+                if (response.code() == 200) { // Added !!
+                  return doc;
+                } else {
+                  return null;
+                }
+              }
+            },
+            successListener,
+            errorListener
     );
   }
 

@@ -27,7 +27,7 @@ public class NoteManager extends Observable {
   private static final String TAG = NoteManager.class.getSimpleName();
   private final KeepDatabase mKD;
 
-  private ConcurrentMap<String, Doc> mNotes = new ConcurrentHashMap<String, Doc>();
+  private ConcurrentMap<String, Doc> mDocs = new ConcurrentHashMap<String, Doc>();
   private String mNotesLastUpdate;
 
   private final Context mContext;
@@ -97,12 +97,33 @@ public class NoteManager extends Observable {
         Log.d(TAG, "getNoteAsync succeeded");
         if (doc == null) {
           setChanged();
-          mNotes.remove(noteId);
+          mDocs.remove(noteId);
         } else {
-          if (!doc.equals(mNotes.get(doc.getId()))) {
+          if (!doc.equals(mDocs.get(doc.getId()))) {
             setChanged();
-            mNotes.put(noteId, doc);
+            mDocs.put(noteId, doc);
           }
+        }
+        successListener.onSuccess(doc);
+        notifyObservers();
+      }
+    }, errorListener);
+  }
+
+  public Cancellable addDocAsync(
+          final Doc doc,
+          final String noteId,
+          final OnSuccessListener<Doc> successListener,
+          final OnErrorListener errorListener) {
+    Log.d(TAG, "addDocAsync...");
+
+    return mNoteRestClient.addAsync(doc, new OnSuccessListener<Doc>() {
+
+      @Override
+      public void onSuccess(Doc doc) {
+        Log.d(TAG, "addDocAsync succeeded");
+        if (doc !=null) {
+          mDocs.put(doc.getId(), doc);
         }
         successListener.onSuccess(doc);
         notifyObservers();
@@ -120,7 +141,7 @@ public class NoteManager extends Observable {
       @Override
       public void onSuccess(Doc doc) {
         Log.d(TAG, "saveNoteAsync succeeded");
-        mNotes.put(doc.getId(), doc);
+        mDocs.put(doc.getId(), doc);
         successListener.onSuccess(doc);
         setChanged();
         notifyObservers();
@@ -145,16 +166,16 @@ public class NoteManager extends Observable {
       @Override
       public void onDeleted(String noteId) {
         Log.d(TAG, "changeListener, onDeleted");
-        if (mNotes.remove(noteId) != null) {
+        if (mDocs.remove(noteId) != null) {
           setChanged();
           notifyObservers();
         }
       }
 
       private void ensureNoteCached(Doc doc) {
-        if (!doc.equals(mNotes.get(doc.getId()))) {
+        if (!doc.equals(mDocs.get(doc.getId()))) {
           Log.d(TAG, "changeListener, cache updated");
-          mNotes.put(doc.getId(), doc);
+          mDocs.put(doc.getId(), doc);
           setChanged();
           notifyObservers();
         }
@@ -178,13 +199,13 @@ public class NoteManager extends Observable {
   private void updateCachedNotes(List<Doc> docs) {
     Log.d(TAG, "updateCachedNotes");
     for (Doc doc : docs) {
-      mNotes.put(doc.getId(), doc);
+      mDocs.put(doc.getId(), doc);
     }
     setChanged();
   }
 
   private List<Doc> cachedNotesByUpdated() {
-    ArrayList<Doc> docs = new ArrayList<>(mNotes.values());
+    ArrayList<Doc> docs = new ArrayList<>(mDocs.values());
     Collections.sort(docs, new NoteByUpdatedComparator());
     return docs;
   }

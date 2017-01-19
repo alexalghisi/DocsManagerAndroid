@@ -21,48 +21,12 @@
     </item>
     <item
         is-multidex="true"
-        jar="/home/alessandro/Facultate/Mobile/Docs/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/24.2.1/jars/libs/internal_impl-24.2.1.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="935a969265b2a166b2d20415423f5f6e90fe16e0">
-        <dex dex="/home/alessandro/Facultate/Mobile/Docs/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-24.2.1_91e15e6dfa0ca5ef2ce02d7cd95cde43c5bba6f3/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/alessandro/.gradle/caches/modules-2/files-2.1/io.socket/socket.io-client/0.8.1/b6c4a3afc589a8c6fa10ecc38eb1beede8006838/socket.io-client-0.8.1.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="b6c4a3afc589a8c6fa10ecc38eb1beede8006838">
-        <dex dex="/home/alessandro/Facultate/Mobile/Docs/app/build/intermediates/transforms/dex/debug/folders/1000/10/socket.io-client-0.8.1_158fcb97156f0cbe8d0d0bf901062951e24cb157/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/alessandro/Facultate/Mobile/Docs/app/build/intermediates/exploded-aar/com.android.support/support-compat/24.2.1/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="0ecb4b595fa0f0f8018a149ace3ea6525624f94e">
-        <dex dex="/home/alessandro/Facultate/Mobile/Docs/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-compat-24.2.1_ea8ce4143879826e606f1f429792012be8fdc4b1/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
         jar="/home/alessandro/Facultate/Mobile/Docs/app/build/intermediates/exploded-aar/com.android.support/support-fragment/24.2.1/jars/classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
         sha1="b9a1ac78ad7ef3abedc4a4b30cd92bcacb939d1f">
         <dex dex="/home/alessandro/Facultate/Mobile/Docs/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-fragment-24.2.1_0277280172d873d83141e40c4b286e1e542deaec/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/alessandro/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp-ws/3.4.1/8ace66ef7002d98f633377c9e67daeeb196d8c3b/okhttp-ws-3.4.1.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="8ace66ef7002d98f633377c9e67daeeb196d8c3b">
-        <dex dex="/home/alessandro/Facultate/Mobile/Docs/app/build/intermediates/transforms/dex/debug/folders/1000/10/okhttp-ws-3.4.1_5e83ec2a6b94361be1d82051c0c20f82bd12a440/classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -120,11 +84,74 @@
     </item>
     <item
         is-multidex="true"
+        jar="/home/alessandro/Facultate/Mobile/Docs/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/24.2.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="09b462bbcb77650284bd6614f1a32f360ef369f8">
+        <dex dex="/home/alessandro/Facultate/Mobile/Docs/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-media-compat-24.2.1_2c50a07ba5667d38121523ed6cb6c40afacbd434/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/alessandro/android-sdk-linux/extras/android/m2repository/com/android/support/support-annotations/24.2.1/support-annotations-24.2.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="8de3aafecbdf98a61db6427f008f2d515bcd2544">
+        <dex dex="/home/alessandro/Facultate/Mobile/Docs/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-24.2.1_239a776a1dfcf6f2cb6b7b0f912959f275e7fde0/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/alessandro/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/3.4.1/c7c4f9e35c2fd5900da24f9872e3971801f08ce0/okhttp-3.4.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="c7c4f9e35c2fd5900da24f9872e3971801f08ce0">
+        <dex dex="/home/alessandro/Facultate/Mobile/Docs/app/build/intermediates/transforms/dex/debug/folders/1000/10/okhttp-3.4.1_06ea6ad20d1e8dcba0a0c80ae41df7a855c3b8c3/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/alessandro/Facultate/Mobile/Docs/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/24.2.1/jars/libs/internal_impl-24.2.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="935a969265b2a166b2d20415423f5f6e90fe16e0">
+        <dex dex="/home/alessandro/Facultate/Mobile/Docs/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-24.2.1_91e15e6dfa0ca5ef2ce02d7cd95cde43c5bba6f3/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/alessandro/.gradle/caches/modules-2/files-2.1/io.socket/socket.io-client/0.8.1/b6c4a3afc589a8c6fa10ecc38eb1beede8006838/socket.io-client-0.8.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="b6c4a3afc589a8c6fa10ecc38eb1beede8006838">
+        <dex dex="/home/alessandro/Facultate/Mobile/Docs/app/build/intermediates/transforms/dex/debug/folders/1000/10/socket.io-client-0.8.1_158fcb97156f0cbe8d0d0bf901062951e24cb157/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/alessandro/Facultate/Mobile/Docs/app/build/intermediates/exploded-aar/com.android.support/support-compat/24.2.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="0ecb4b595fa0f0f8018a149ace3ea6525624f94e">
+        <dex dex="/home/alessandro/Facultate/Mobile/Docs/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-compat-24.2.1_ea8ce4143879826e606f1f429792012be8fdc4b1/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/alessandro/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp-ws/3.4.1/8ace66ef7002d98f633377c9e67daeeb196d8c3b/okhttp-ws-3.4.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="8ace66ef7002d98f633377c9e67daeeb196d8c3b">
+        <dex dex="/home/alessandro/Facultate/Mobile/Docs/app/build/intermediates/transforms/dex/debug/folders/1000/10/okhttp-ws-3.4.1_5e83ec2a6b94361be1d82051c0c20f82bd12a440/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="/home/alessandro/Facultate/Mobile/Docs/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="54a61b2932c7f42177a1cce72df4e25785be6cd0">
+        sha1="f79118cca55cb25ead2ecd82f0314380aa010ff6">
         <dex dex="/home/alessandro/Facultate/Mobile/Docs/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_baff733f84e80392b13742db659dabba5a1ee65a/classes.dex" />
     </item>
     <item
@@ -147,15 +174,6 @@
     </item>
     <item
         is-multidex="true"
-        jar="/home/alessandro/Facultate/Mobile/Docs/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/24.2.1/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="09b462bbcb77650284bd6614f1a32f360ef369f8">
-        <dex dex="/home/alessandro/Facultate/Mobile/Docs/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-media-compat-24.2.1_2c50a07ba5667d38121523ed6cb6c40afacbd434/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
         jar="/home/alessandro/Facultate/Mobile/Docs/app/build/intermediates/exploded-aar/com.android.support/support-v4/24.2.1/jars/classes.jar"
         jumboMode="true"
         optimize="true"
@@ -174,30 +192,12 @@
     </item>
     <item
         is-multidex="true"
-        jar="/home/alessandro/android-sdk-linux/extras/android/m2repository/com/android/support/support-annotations/24.2.1/support-annotations-24.2.1.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="8de3aafecbdf98a61db6427f008f2d515bcd2544">
-        <dex dex="/home/alessandro/Facultate/Mobile/Docs/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-24.2.1_239a776a1dfcf6f2cb6b7b0f912959f275e7fde0/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
         jar="/home/alessandro/Facultate/Mobile/Docs/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/24.2.1/jars/classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
         sha1="7521486d9bfd2cd9e756e0cf75ed7d97f2ce2d3b">
         <dex dex="/home/alessandro/Facultate/Mobile/Docs/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-recyclerview-v7-24.2.1_b971dedd852c50f3d7cf9be6cfedd04ae53def70/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/alessandro/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/3.4.1/c7c4f9e35c2fd5900da24f9872e3971801f08ce0/okhttp-3.4.1.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="c7c4f9e35c2fd5900da24f9872e3971801f08ce0">
-        <dex dex="/home/alessandro/Facultate/Mobile/Docs/app/build/intermediates/transforms/dex/debug/folders/1000/10/okhttp-3.4.1_06ea6ad20d1e8dcba0a0c80ae41df7a855c3b8c3/classes.dex" />
     </item>
     <item
         is-multidex="true"
