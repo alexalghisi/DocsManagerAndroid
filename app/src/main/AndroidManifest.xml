@@ -46,7 +46,7 @@
 
     <provider
       android:name=".content.provider.NoteContentProvider"
-      android:authorities="note"
+      android:authorities="doc"
       android:enabled="true"
       android:exported="false">
     </provider>

@@ -1,6 +1,6 @@
 package com.example.ilazar.mykeep.content;
 
-public class Note {
+public class Doc {
 
   public enum Status {
     active,
@@ -10,11 +10,12 @@ public class Note {
   private String mId;
   private String mUserId;
   private String mText;
+  private String mTitle;
   private Status mStatus = Status.active;
   private long mUpdated;
   private int mNersion;
 
-  public Note() {
+  public Doc() {
   }
 
   public String getId() {
@@ -37,9 +38,13 @@ public class Note {
     return mText;
   }
 
+  public String getTitle() { return mTitle; }
+
   public void setText(String text) {
     mText = text;
   }
+
+  public void setTitle(String title) { mTitle = title; }
 
   public Status getStatus() {
     return mStatus;
@@ -67,7 +72,7 @@ public class Note {
 
   @Override
   public String toString() {
-    return "Note{" +
+    return "Doc{" +
         "mId='" + mId + '\'' +
         ", mUserId='" + mUserId + '\'' +
         ", mText='" + mText + '\'' +

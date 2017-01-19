@@ -1,10 +1,9 @@
 package com.example.ilazar.mykeep.service;
 
 import android.content.Context;
-import android.text.Editable;
 import android.util.Log;
 
-import com.example.ilazar.mykeep.content.Note;
+import com.example.ilazar.mykeep.content.Doc;
 import com.example.ilazar.mykeep.content.User;
 import com.example.ilazar.mykeep.content.database.KeepDatabase;
 import com.example.ilazar.mykeep.net.LastModifiedList;
@@ -28,7 +27,7 @@ public class NoteManager extends Observable {
   private static final String TAG = NoteManager.class.getSimpleName();
   private final KeepDatabase mKD;
 
-  private ConcurrentMap<String, Note> mNotes = new ConcurrentHashMap<String, Note>();
+  private ConcurrentMap<String, Doc> mNotes = new ConcurrentHashMap<String, Doc>();
   private String mNotesLastUpdate;
 
   private final Context mContext;
@@ -42,18 +41,18 @@ public class NoteManager extends Observable {
     mKD = new KeepDatabase(context);
   }
 
-  public CancellableCallable<LastModifiedList<Note>> getNotesCall() {
+  public CancellableCallable<LastModifiedList<Doc>> getNotesCall() {
     Log.d(TAG, "getNotesCall");
     return mNoteRestClient.search(mNotesLastUpdate);
   }
 
-  public List<Note> executeNotesCall(CancellableCallable<LastModifiedList<Note>> getNotesCall) throws Exception {
+  public List<Doc> executeNotesCall(CancellableCallable<LastModifiedList<Doc>> getNotesCall) throws Exception {
     Log.d(TAG, "execute getNotes...");
-    LastModifiedList<Note> result = getNotesCall.call();
-    List<Note> notes = result.getList();
-    if (notes != null) {
+    LastModifiedList<Doc> result = getNotesCall.call();
+    List<Doc> docs = result.getList();
+    if (docs != null) {
       mNotesLastUpdate = result.getLastModified();
-      updateCachedNotes(notes);
+      updateCachedNotes(docs);
       notifyObservers();
     }
     return cachedNotesByUpdated();
@@ -68,17 +67,17 @@ public class NoteManager extends Observable {
     mNoteRestClient = noteRestClient;
   }
 
-  public Cancellable getNotesAsync(final OnSuccessListener<List<Note>> successListener, OnErrorListener errorListener) {
+  public Cancellable getNotesAsync(final OnSuccessListener<List<Doc>> successListener, OnErrorListener errorListener) {
     Log.d(TAG, "getNotesAsync...");
-    return mNoteRestClient.searchAsync(mNotesLastUpdate, new OnSuccessListener<LastModifiedList<Note>>() {
+    return mNoteRestClient.searchAsync(mNotesLastUpdate, new OnSuccessListener<LastModifiedList<Doc>>() {
 
       @Override
-      public void onSuccess(LastModifiedList<Note> result) {
+      public void onSuccess(LastModifiedList<Doc> result) {
         Log.d(TAG, "getNotesAsync succeeded");
-        List<Note> notes = result.getList();
-        if (notes != null) {
+        List<Doc> docs = result.getList();
+        if (docs != null) {
           mNotesLastUpdate = result.getLastModified();
-          updateCachedNotes(notes);
+          updateCachedNotes(docs);
         }
         successListener.onSuccess(cachedNotesByUpdated());
         notifyObservers();
@@ -88,41 +87,41 @@ public class NoteManager extends Observable {
 
   public Cancellable getNoteAsync(
       final String noteId,
-      final OnSuccessListener<Note> successListener,
+      final OnSuccessListener<Doc> successListener,
       final OnErrorListener errorListener) {
     Log.d(TAG, "getNoteAsync...");
-    return mNoteRestClient.readAsync(noteId, new OnSuccessListener<Note>() {
+    return mNoteRestClient.readAsync(noteId, new OnSuccessListener<Doc>() {
 
       @Override
-      public void onSuccess(Note note) {
+      public void onSuccess(Doc doc) {
         Log.d(TAG, "getNoteAsync succeeded");
-        if (note == null) {
+        if (doc == null) {
           setChanged();
           mNotes.remove(noteId);
         } else {
-          if (!note.equals(mNotes.get(note.getId()))) {
+          if (!doc.equals(mNotes.get(doc.getId()))) {
             setChanged();
-            mNotes.put(noteId, note);
+            mNotes.put(noteId, doc);
           }
         }
-        successListener.onSuccess(note);
+        successListener.onSuccess(doc);
         notifyObservers();
       }
     }, errorListener);
   }
 
   public Cancellable saveNoteAsync(
-      final Note note,
-      final OnSuccessListener<Note> successListener,
+      final Doc doc,
+      final OnSuccessListener<Doc> successListener,
       final OnErrorListener errorListener) {
     Log.d(TAG, "saveNoteAsync...");
-    return mNoteRestClient.updateAsync(note, new OnSuccessListener<Note>() {
+    return mNoteRestClient.updateAsync(doc, new OnSuccessListener<Doc>() {
 
       @Override
-      public void onSuccess(Note note) {
+      public void onSuccess(Doc doc) {
         Log.d(TAG, "saveNoteAsync succeeded");
-        mNotes.put(note.getId(), note);
-        successListener.onSuccess(note);
+        mNotes.put(doc.getId(), doc);
+        successListener.onSuccess(doc);
         setChanged();
         notifyObservers();
       }
@@ -130,17 +129,17 @@ public class NoteManager extends Observable {
   }
 
   public void subscribeChangeListener() {
-    mNoteSocketClient.subscribe(new ResourceChangeListener<Note>() {
+    mNoteSocketClient.subscribe(new ResourceChangeListener<Doc>() {
       @Override
-      public void onCreated(Note note) {
+      public void onCreated(Doc doc) {
         Log.d(TAG, "changeListener, onCreated");
-        ensureNoteCached(note);
+        ensureNoteCached(doc);
       }
 
       @Override
-      public void onUpdated(Note note) {
+      public void onUpdated(Doc doc) {
         Log.d(TAG, "changeListener, onUpdated");
-        ensureNoteCached(note);
+        ensureNoteCached(doc);
       }
 
       @Override
@@ -152,10 +151,10 @@ public class NoteManager extends Observable {
         }
       }
 
-      private void ensureNoteCached(Note note) {
-        if (!note.equals(mNotes.get(note.getId()))) {
+      private void ensureNoteCached(Doc doc) {
+        if (!doc.equals(mNotes.get(doc.getId()))) {
           Log.d(TAG, "changeListener, cache updated");
-          mNotes.put(note.getId(), note);
+          mNotes.put(doc.getId(), doc);
           setChanged();
           notifyObservers();
         }
@@ -176,21 +175,21 @@ public class NoteManager extends Observable {
     mNoteSocketClient = noteSocketClient;
   }
 
-  private void updateCachedNotes(List<Note> notes) {
+  private void updateCachedNotes(List<Doc> docs) {
     Log.d(TAG, "updateCachedNotes");
-    for (Note note : notes) {
-      mNotes.put(note.getId(), note);
+    for (Doc doc : docs) {
+      mNotes.put(doc.getId(), doc);
     }
     setChanged();
   }
 
-  private List<Note> cachedNotesByUpdated() {
-    ArrayList<Note> notes = new ArrayList<>(mNotes.values());
-    Collections.sort(notes, new NoteByUpdatedComparator());
-    return notes;
+  private List<Doc> cachedNotesByUpdated() {
+    ArrayList<Doc> docs = new ArrayList<>(mNotes.values());
+    Collections.sort(docs, new NoteByUpdatedComparator());
+    return docs;
   }
 
-  public List<Note> getCachedNotes() {
+  public List<Doc> getCachedNotes() {
     return cachedNotesByUpdated();
   }
 
@@ -226,9 +225,9 @@ public class NoteManager extends Observable {
     return mKD.getCurrentUser();
   }
 
-  private class NoteByUpdatedComparator implements java.util.Comparator<Note> {
+  private class NoteByUpdatedComparator implements java.util.Comparator<Doc> {
     @Override
-    public int compare(Note n1, Note n2) {
+    public int compare(Doc n1, Doc n2) {
       return (int) (n1.getUpdated() - n2.getUpdated());
     }
   }

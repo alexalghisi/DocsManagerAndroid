@@ -6,7 +6,7 @@ import android.util.JsonWriter;
 import android.util.Log;
 
 import com.example.ilazar.mykeep.R;
-import com.example.ilazar.mykeep.content.Note;
+import com.example.ilazar.mykeep.content.Doc;
 import com.example.ilazar.mykeep.content.User;
 import com.example.ilazar.mykeep.net.mapping.CredentialsWriter;
 import com.example.ilazar.mykeep.net.mapping.IssueReader;
@@ -88,24 +88,24 @@ public class NoteRestClient {
     );
   }
 
-  public OkHttpCancellableCallable<LastModifiedList<Note>> search(String mNotesLastUpdate) {
+  public OkHttpCancellableCallable<LastModifiedList<Doc>> search(String mNotesLastUpdate) {
     Request.Builder requestBuilder = new Request.Builder().url(mDocsUrl);
     if (mNotesLastUpdate != null) {
       requestBuilder.header(LAST_MODIFIED, mNotesLastUpdate);
     }
     addAuthToken(requestBuilder);
-    return new OkHttpCancellableCallable<LastModifiedList<Note>>(
+    return new OkHttpCancellableCallable<LastModifiedList<Doc>>(
         requestBuilder.build(),
-        new ResponseReader<LastModifiedList<Note>>() {
+        new ResponseReader<LastModifiedList<Doc>>() {
           @Override
-          public LastModifiedList<Note> read(Response response) throws Exception {
+          public LastModifiedList<Doc> read(Response response) throws Exception {
             JsonReader reader = new JsonReader(new InputStreamReader(response.body().byteStream(), UTF_8));
             if (response.code() == 304) { //not modified
-              return new LastModifiedList<Note>(response.header(LAST_MODIFIED), null);
+              return new LastModifiedList<Doc>(response.header(LAST_MODIFIED), null);
             } else {
-              return new LastModifiedList<Note>(
+              return new LastModifiedList<Doc>(
                   response.header(LAST_MODIFIED),
-                  new ResourceListReader<Note>(new NoteReader()).read(reader));
+                  new ResourceListReader<Doc>(new NoteReader()).read(reader));
             }
           }
         }
@@ -121,25 +121,25 @@ public class NoteRestClient {
 
   public Cancellable searchAsync(
       String mNotesLastUpdate,
-      final OnSuccessListener<LastModifiedList<Note>> successListener,
+      final OnSuccessListener<LastModifiedList<Doc>> successListener,
       final OnErrorListener errorListener) {
     Request.Builder requestBuilder = new Request.Builder().url(mDocsUrl);
     if (mNotesLastUpdate != null) {
       requestBuilder.header(LAST_MODIFIED, mNotesLastUpdate);
     }
     addAuthToken(requestBuilder);
-    return new CancellableOkHttpAsync<LastModifiedList<Note>>(
+    return new CancellableOkHttpAsync<LastModifiedList<Doc>>(
         requestBuilder.build(),
-        new ResponseReader<LastModifiedList<Note>>() {
+        new ResponseReader<LastModifiedList<Doc>>() {
           @Override
-          public LastModifiedList<Note> read(Response response) throws Exception {
+          public LastModifiedList<Doc> read(Response response) throws Exception {
             JsonReader reader = new JsonReader(new InputStreamReader(response.body().byteStream(), UTF_8));
             if (response.code() == 304) { //not modified
-              return new LastModifiedList<Note>(response.header(LAST_MODIFIED), null);
+              return new LastModifiedList<Doc>(response.header(LAST_MODIFIED), null);
             } else {
-              return new LastModifiedList<Note>(
+              return new LastModifiedList<Doc>(
                   response.header(LAST_MODIFIED),
-                  new ResourceListReader<Note>(new NoteReader()).read(reader));
+                  new ResourceListReader<Doc>(new NoteReader()).read(reader));
             }
           }
         },
@@ -149,15 +149,15 @@ public class NoteRestClient {
   }
 
   public Cancellable readAsync(String noteId,
-                               final OnSuccessListener<Note> successListener,
+                               final OnSuccessListener<Doc> successListener,
                                final OnErrorListener errorListener) {
     Request.Builder builder = new Request.Builder().url(String.format("%s/%s", mDocsUrl, noteId));
     addAuthToken(builder);
-    return new CancellableOkHttpAsync<Note>(
+    return new CancellableOkHttpAsync<Doc>(
         builder.build(),
-        new ResponseReader<Note>() {
+        new ResponseReader<Doc>() {
           @Override
-          public Note read(Response response) throws Exception {
+          public Doc read(Response response) throws Exception {
             if (response.code() == 200) {
               JsonReader reader = new JsonReader(new InputStreamReader(response.body().byteStream(), UTF_8));
               return new NoteReader().read(reader);
@@ -171,27 +171,27 @@ public class NoteRestClient {
     );
   }
 
-  public Cancellable updateAsync(Note note,
-                                 final OnSuccessListener<Note> successListener,
+  public Cancellable updateAsync(Doc doc,
+                                 final OnSuccessListener<Doc> successListener,
                                  final OnErrorListener errorListener) {
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     try {
       JsonWriter writer = new JsonWriter(new OutputStreamWriter(baos, UTF_8));
-      new NoteWriter().write(note, writer);
+      new NoteWriter().write(doc, writer);
       writer.close();
     } catch (Exception e) {
       Log.e(TAG, "updateAsync failed", e);
       errorListener.onError(new ResourceException(e));
     } finally {
       Request.Builder builder = new Request.Builder()
-          .url(String.format("%s/%s", mDocsUrl, note.getId()))
+          .url(String.format("%s/%s", mDocsUrl, doc.getId()))
           .put(RequestBody.create(MediaType.parse(APPLICATION_JSON), baos.toByteArray()));
       addAuthToken(builder);
-      return new CancellableOkHttpAsync<Note>(
+      return new CancellableOkHttpAsync<Doc>(
           builder.build(),
-          new ResponseReader<Note>() {
+          new ResponseReader<Doc>() {
             @Override
-            public Note read(Response response) throws Exception {
+            public Doc read(Response response) throws Exception {
               int code = response.code();
               JsonReader reader = new JsonReader(new InputStreamReader(response.body().byteStream(), UTF_8));
               if (code == 400 || code == 409 || code == 405) { //bad request, conflict, method not allowed

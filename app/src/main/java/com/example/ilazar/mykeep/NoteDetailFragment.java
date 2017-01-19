@@ -11,14 +11,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.ilazar.mykeep.content.Note;
+import com.example.ilazar.mykeep.content.Doc;
 import com.example.ilazar.mykeep.util.Cancellable;
 import com.example.ilazar.mykeep.util.DialogUtils;
 import com.example.ilazar.mykeep.util.OnErrorListener;
 import com.example.ilazar.mykeep.util.OnSuccessListener;
 
 /**
- * A fragment representing a single Note detail screen.
+ * A fragment representing a single Doc detail screen.
  * This fragment is either contained in a {@link NoteListActivity}
  * in two-pane mode (on tablets) or a {@link NoteDetailActivity}
  * on handsets.
@@ -34,7 +34,7 @@ public class NoteDetailFragment extends Fragment {
     /**
      * The dummy content this fragment is presenting.
      */
-    private Note mNote;
+    private Doc mDoc;
 
     private KeepApp mApp;
 
@@ -88,14 +88,14 @@ public class NoteDetailFragment extends Fragment {
     private void fetchNoteAsync() {
         mFetchNoteAsync = mApp.getNoteManager().getNoteAsync(
                 getArguments().getString(NOTE_ID),
-                new OnSuccessListener<Note>() {
+                new OnSuccessListener<Doc>() {
 
                     @Override
-                    public void onSuccess(final Note note) {
+                    public void onSuccess(final Doc doc) {
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                mNote = note;
+                                mDoc = doc;
                                 fillNoteDetails();
                             }
                         });
@@ -115,11 +115,11 @@ public class NoteDetailFragment extends Fragment {
     }
 
     private void fillNoteDetails() {
-        if (mNote != null) {
+        if (mDoc != null) {
             if (mAppBarLayout != null) {
-                mAppBarLayout.setTitle(mNote.getText());
+                mAppBarLayout.setTitle(mDoc.getTitle());
             }
-            mNoteTextView.setText(mNote.getText());
+            mNoteTextView.setText(mDoc.getText());
         }
     }
 }

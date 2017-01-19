@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -15,7 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.ilazar.mykeep.content.Note;
+import com.example.ilazar.mykeep.content.Doc;
 import com.example.ilazar.mykeep.util.Cancellable;
 import com.example.ilazar.mykeep.util.DialogUtils;
 import com.example.ilazar.mykeep.util.OnErrorListener;
@@ -125,14 +124,14 @@ public class NoteListActivity extends AppCompatActivity {
         }
         showLoadingIndicator();
         mGetNotesAsyncCall = mApp.getNoteManager().getNotesAsync(
-                new OnSuccessListener<List<Note>>() {
+                new OnSuccessListener<List<Doc>>() {
                     @Override
-                    public void onSuccess(final List<Note> notes) {
+                    public void onSuccess(final List<Doc> docs) {
                         Log.d(TAG, "getNotesAsyncCall - success");
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                showContent(notes);
+                                showContent(docs);
                             }
                         });
                     }
@@ -173,9 +172,9 @@ public class NoteListActivity extends AppCompatActivity {
         mContentLoadingView.setVisibility(View.VISIBLE);
     }
 
-    private void showContent(final List<Note> notes) {
+    private void showContent(final List<Doc> docs) {
         Log.d(TAG, "showContent");
-        mRecyclerView.setAdapter(new NoteRecyclerViewAdapter(notes));
+        mRecyclerView.setAdapter(new NoteRecyclerViewAdapter(docs));
         mContentLoadingView.setVisibility(View.GONE);
         mRecyclerView.setVisibility(View.VISIBLE);
     }
@@ -183,9 +182,9 @@ public class NoteListActivity extends AppCompatActivity {
     public class NoteRecyclerViewAdapter
             extends RecyclerView.Adapter<NoteRecyclerViewAdapter.ViewHolder> {
 
-        private final List<Note> mValues;
+        private final List<Doc> mValues;
 
-        public NoteRecyclerViewAdapter(List<Note> items) {
+        public NoteRecyclerViewAdapter(List<Doc> items) {
             mValues = items;
         }
 
@@ -200,7 +199,7 @@ public class NoteListActivity extends AppCompatActivity {
         public void onBindViewHolder(final ViewHolder holder, int position) {
             holder.mItem = mValues.get(position);
             holder.mIdView.setText(mValues.get(position).getId());
-            holder.mContentView.setText(mValues.get(position).getText());
+            holder.mContentView.setText(mValues.get(position).getTitle());
 
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -232,7 +231,7 @@ public class NoteListActivity extends AppCompatActivity {
             public final View mView;
             public final TextView mIdView;
             public final TextView mContentView;
-            public Note mItem;
+            public Doc mItem;
 
             public ViewHolder(View view) {
                 super(view);

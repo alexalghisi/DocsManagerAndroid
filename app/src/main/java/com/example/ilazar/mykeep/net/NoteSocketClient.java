@@ -4,7 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.example.ilazar.mykeep.R;
-import com.example.ilazar.mykeep.content.Note;
+import com.example.ilazar.mykeep.content.Doc;
 import com.example.ilazar.mykeep.net.mapping.IdJsonObjectReader;
 import com.example.ilazar.mykeep.net.mapping.NoteJsonObjectReader;
 
@@ -22,14 +22,14 @@ public class NoteSocketClient {
   private static final String TAG = NoteSocketClient.class.getSimpleName();
   private final Context mContext;
   private Socket mSocket;
-  private ResourceChangeListener<Note> mResourceListener;
+  private ResourceChangeListener<Doc> mResourceListener;
 
   public NoteSocketClient(Context context) {
     mContext = context;
     Log.d(TAG, "created");
   }
 
-  public void subscribe(final ResourceChangeListener<Note> resourceListener) {
+  public void subscribe(final ResourceChangeListener<Doc> resourceListener) {
     Log.d(TAG, "subscribe");
     mResourceListener = resourceListener;
     try {
@@ -50,9 +50,9 @@ public class NoteSocketClient {
         @Override
         public void call(Object... args) {
           try {
-            Note note = new NoteJsonObjectReader().read((JSONObject) args[0]);
-            Log.d(TAG, String.format("note created %s", note.toString()));
-            mResourceListener.onCreated(note);
+            Doc doc = new NoteJsonObjectReader().read((JSONObject) args[0]);
+            Log.d(TAG, String.format("doc created %s", doc.toString()));
+            mResourceListener.onCreated(doc);
           } catch (Exception e) {
             Log.w(TAG, "note created", e);
             mResourceListener.onError(new ResourceException(e));
@@ -63,9 +63,9 @@ public class NoteSocketClient {
         @Override
         public void call(Object... args) {
           try {
-            Note note = new NoteJsonObjectReader().read((JSONObject) args[0]);
-            Log.d(TAG, String.format("note updated %s", note.toString()));
-            mResourceListener.onUpdated(note);
+            Doc doc = new NoteJsonObjectReader().read((JSONObject) args[0]);
+            Log.d(TAG, String.format("doc updated %s", doc.toString()));
+            mResourceListener.onUpdated(doc);
           } catch (Exception e) {
             Log.w(TAG, "note updated", e);
             mResourceListener.onError(new ResourceException(e));
