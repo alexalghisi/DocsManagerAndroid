@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.example.ilazar.mykeep.content.User;
-import com.example.ilazar.mykeep.service.NoteManager;
+import com.example.ilazar.mykeep.service.DocsManager;
 import com.example.ilazar.mykeep.util.Cancellable;
 import com.example.ilazar.mykeep.util.DialogUtils;
 import com.example.ilazar.mykeep.util.OnErrorListener;
@@ -19,14 +19,14 @@ import com.example.ilazar.mykeep.util.OnSuccessListener;
 public class LoginActivity extends AppCompatActivity {
 
   private Cancellable mCancellable;
-  private NoteManager mNoteManager;
+  private DocsManager mDocsManager;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_login);
-    mNoteManager = ((KeepApp) getApplication()).getNoteManager();
-    User user = mNoteManager.getCurrentUser();
+    mDocsManager = ((KeepApp) getApplication()).getNoteManager();
+    User user = mDocsManager.getCurrentUser();
     if (user != null) {
       startNoteListActivity();
       finish();
@@ -60,7 +60,7 @@ public class LoginActivity extends AppCompatActivity {
   private void login() {
     EditText usernameEditText = (EditText) findViewById(R.id.username);
     EditText passwordEditText = (EditText) findViewById(R.id.password);
-    mCancellable = mNoteManager
+    mCancellable = mDocsManager
         .loginAsync(
             usernameEditText.getText().toString(), passwordEditText.getText().toString(),
             new OnSuccessListener<String>() {

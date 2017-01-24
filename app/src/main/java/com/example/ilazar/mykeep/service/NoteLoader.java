@@ -14,13 +14,13 @@ import java.util.Observer;
 
 public class NoteLoader extends OkAsyncTaskLoader<List<Doc>> implements Observer {
   private static final String TAG = NoteLoader.class.getSimpleName();
-  private final NoteManager mNoteManager;
+  private final DocsManager mDocsManager;
   private List<Doc> mCachedDocs;
   private CancellableCallable<LastModifiedList<Doc>> mCancellableCall;
 
-  public NoteLoader(Context context, NoteManager noteManager) {
+  public NoteLoader(Context context, DocsManager docsManager) {
     super(context);
-    mNoteManager = noteManager;
+    mDocsManager = docsManager;
   }
 
   @Override
@@ -28,8 +28,8 @@ public class NoteLoader extends OkAsyncTaskLoader<List<Doc>> implements Observer
     // This method is called on a background thread and should generate a
     // new set of data to be delivered back to the client
     Log.d(TAG, "tryLoadInBackground");
-    mCancellableCall = mNoteManager.getNotesCall();
-    mCachedDocs = mNoteManager.executeNotesCall(mCancellableCall);
+    mCancellableCall = mDocsManager.getNotesCall();
+    mCachedDocs = mDocsManager.executeNotesCall(mCancellableCall);
     return mCachedDocs;
   }
 
@@ -59,7 +59,7 @@ public class NoteLoader extends OkAsyncTaskLoader<List<Doc>> implements Observer
       deliverResult(mCachedDocs);
     }
     // Begin monitoring the underlying data source.
-    mNoteManager.addObserver(this);
+    mDocsManager.addObserver(this);
     if (takeContentChanged() || mCachedDocs == null) {
       // When the observer detects a change, it should call onContentChanged()
       // on the Loader, which will cause the next call to takeContentChanged()
@@ -91,7 +91,7 @@ public class NoteLoader extends OkAsyncTaskLoader<List<Doc>> implements Observer
       mCachedDocs = null;
     }
     // The Loader is being reset, so we should stop monitoring for changes.
-    mNoteManager.deleteObserver(this);
+    mDocsManager.deleteObserver(this);
   }
 
   @Override
@@ -103,6 +103,6 @@ public class NoteLoader extends OkAsyncTaskLoader<List<Doc>> implements Observer
 
   @Override
   public void update(Observable o, Object arg) {
-    mCachedDocs = mNoteManager.getCachedNotes();
+    mCachedDocs = mDocsManager.getCachedNotes();
   }
 }

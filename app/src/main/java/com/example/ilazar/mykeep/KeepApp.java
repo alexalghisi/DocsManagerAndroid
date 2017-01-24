@@ -5,11 +5,11 @@ import android.util.Log;
 
 import com.example.ilazar.mykeep.net.NoteRestClient;
 import com.example.ilazar.mykeep.net.NoteSocketClient;
-import com.example.ilazar.mykeep.service.NoteManager;
+import com.example.ilazar.mykeep.service.DocsManager;
 
 public class KeepApp extends Application {
   public static final String TAG = KeepApp.class.getSimpleName();
-  private NoteManager mNoteManager;
+  private DocsManager mDocsManager;
   private NoteRestClient mNoteRestClient;
   private NoteSocketClient mNoteSocketClient;
 
@@ -17,15 +17,15 @@ public class KeepApp extends Application {
   public void onCreate() {
     Log.d(TAG, "onCreate");
     super.onCreate();
-    mNoteManager = new NoteManager(this);
+    mDocsManager = new DocsManager(this);
     mNoteRestClient = new NoteRestClient(this);
     mNoteSocketClient = new NoteSocketClient(this);
-    mNoteManager.setNoteRestClient(mNoteRestClient);
-    mNoteManager.setNoteSocketClient(mNoteSocketClient);
+    mDocsManager.setNoteRestClient(mNoteRestClient);
+    mDocsManager.setNoteSocketClient(mNoteSocketClient);
   }
 
-  public NoteManager getNoteManager() {
-    return mNoteManager;
+  public DocsManager getNoteManager() {
+    return mDocsManager;
   }
 
   @Override
