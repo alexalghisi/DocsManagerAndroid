@@ -19,9 +19,8 @@ public class ResourceListReader<E> implements ResourceReader<List<E>, JsonReader
     public List<E> read(JsonReader reader) throws Exception {
         List<E> entityList = new ArrayList<E>();
 
-        Log.d("!!! ____ Reader", reader.toString());
-
         reader.beginObject();
+
         while(reader.hasNext()) {
             if(reader.hasNext()) {
                 String name = reader.nextName();

@@ -54,6 +54,10 @@ public class DocsDetailActivity extends AppCompatActivity {
       Bundle arguments = new Bundle();
       arguments.putString(DocsDetailFragment.NOTE_ID,
           getIntent().getStringExtra(DocsDetailFragment.NOTE_ID));
+      arguments.putString(DocsDetailFragment.TEXT,
+              getIntent().getStringExtra(DocsDetailFragment.TEXT));
+      arguments.putString(DocsDetailFragment.DATE,
+              getIntent().getStringExtra(DocsDetailFragment.DATE));
       DocsDetailFragment fragment = new DocsDetailFragment();
       fragment.setArguments(arguments);
       getSupportFragmentManager().beginTransaction()

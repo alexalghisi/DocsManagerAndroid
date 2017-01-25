@@ -19,7 +19,7 @@ public class DocsWriter implements ResourceWriter<Doc, JsonWriter> {
   public void write(Doc doc, JsonWriter writer) throws IOException {
     writer.beginObject();
     {
-      writer.name(DATE).value(doc.getdate());
+      writer.name(DATE).value(doc.getDate());
       writer.name(TEXT).value(doc.getText());
       writer.name(VERSION).value(doc.getVersion());
       writer.name(USER_ID).value(doc.getUserId());

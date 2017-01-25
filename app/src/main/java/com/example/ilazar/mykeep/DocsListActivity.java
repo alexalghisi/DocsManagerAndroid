@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.annotation.IntegerRes;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -21,6 +23,7 @@ import com.example.ilazar.mykeep.util.DialogUtils;
 import com.example.ilazar.mykeep.util.OnErrorListener;
 import com.example.ilazar.mykeep.util.OnSuccessListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -58,12 +61,21 @@ public class DocsListActivity extends AppCompatActivity {
     private View mContentLoadingView;
     private RecyclerView mRecyclerView;
 
+    private boolean mIsLoading;
+    LinearLayoutManager mLayoutManager;
+
+    private List<Doc> mNote;
+
+    private boolean loading = true;
+    int pastVisiblesItems, visibleItemCount, totalItemCount;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "onCreate");
         super.onCreate(savedInstanceState);
         mApp = (KeepApp) getApplication();
         mContext = getApplicationContext();
+        mNote = new ArrayList<>();
         setContentView(R.layout.activity_note_list);
         setupToolbar();
         setupFloatingActionBar();
@@ -112,7 +124,54 @@ public class DocsListActivity extends AppCompatActivity {
     private void setupRecyclerView() {
         mContentLoadingView = findViewById(R.id.content_loading);
         mRecyclerView = (RecyclerView) findViewById(R.id.note_list);
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener()
+        {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy)
+            {
+                //Log.d("DY :::", Integer.toString(dy));
+                if(dy >= 0) //check for scroll down
+                {
+                    visibleItemCount = mLayoutManager.getChildCount();
+                    totalItemCount = mLayoutManager.getItemCount();
+                    pastVisiblesItems = mLayoutManager.findFirstVisibleItemPosition();
+                    //Log.d("LEFT ::: ", Integer.toString(visibleItemCount + pastVisiblesItems));
+                    //Log.d("RIGHT ::: ", Integer.toString(totalItemCount));
+
+                    if (true)
+                    {
+                        if ( (visibleItemCount + pastVisiblesItems) >= totalItemCount)
+                        {
+                            loading = false;
+                            Log.v("... ... ...", "Last Item Wow !");
+                            startGetDocsAsyncCall();
+                            //Do pagination.. i.e. fetch new data
+                        }
+                    }
+                }
+            }
+        });
     }
+
+
+   /* RecyclerView.OnScrollListener mScrollListener = new RecyclerView.OnScrollListener() {
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            if (mIsLoading)
+                return;
+            int visibleItemCount = recyclerView.LayoutManager.getChildCount();
+            int totalItemCount = mLayoutManager.getItemCount();
+            int pastVisibleItems = mLayoutManager.findFirstVisibleItemPosition();
+            if (pastVisibleItems + visibleItemCount >= totalItemCount) {
+                //End of list
+                Log.d("END", "OF LIST");
+            }
+        }
+    };*/
+
 
     private void checkTwoPaneMode() {
         if (findViewById(R.id.note_detail_container) != null) {
@@ -129,6 +188,7 @@ public class DocsListActivity extends AppCompatActivity {
             Log.d(TAG, "start getNotesAsyncCall - content already loaded, return");
             return;
         }
+        mIsLoading = true;
         showLoadingIndicator();
         if (isOnline()) {
             // Load from server and update database.
@@ -140,7 +200,9 @@ public class DocsListActivity extends AppCompatActivity {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    showContent(docs);
+                                    mNote.addAll(docs);
+                                    showContent();
+                                    mIsLoading = false;
                                 }
                             });
                         }
@@ -185,9 +247,9 @@ public class DocsListActivity extends AppCompatActivity {
         mContentLoadingView.setVisibility(View.VISIBLE);
     }
 
-    private void showContent(final List<Doc> docs) {
+    private void showContent() {
         Log.d(TAG, "showContent");
-        mRecyclerView.setAdapter(new NoteRecyclerViewAdapter(docs));
+        mRecyclerView.setAdapter(new NoteRecyclerViewAdapter(mNote));
         mContentLoadingView.setVisibility(View.GONE);
         mRecyclerView.setVisibility(View.VISIBLE);
     }
@@ -220,6 +282,9 @@ public class DocsListActivity extends AppCompatActivity {
                     if (mTwoPane) {
                         Bundle arguments = new Bundle();
                         arguments.putString(DocsDetailFragment.NOTE_ID, holder.mItem.getId());
+                        arguments.putString(DocsDetailFragment.TEXT, holder.mItem.getText());
+                        arguments.putString(DocsDetailFragment.DATE, holder.mItem.getDate());
+
                         DocsDetailFragment fragment = new DocsDetailFragment();
                         fragment.setArguments(arguments);
                         getSupportFragmentManager().beginTransaction()
@@ -229,6 +294,8 @@ public class DocsListActivity extends AppCompatActivity {
                         Context context = v.getContext();
                         Intent intent = new Intent(context, DocsDetailActivity.class);
                         intent.putExtra(DocsDetailFragment.NOTE_ID, holder.mItem.getId());
+                        intent.putExtra(DocsDetailFragment.TEXT, holder.mItem.getText());
+                        intent.putExtra(DocsDetailFragment.DATE, holder.mItem.getDate());
                         context.startActivity(intent);
                     }
                 }

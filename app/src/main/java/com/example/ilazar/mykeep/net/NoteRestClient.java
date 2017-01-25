@@ -47,6 +47,7 @@ public class NoteRestClient {
   private final String mNoteUrl;
   private final Context mContext;
   private final String mAuthUrl;
+  private Integer mPage;
   private Socket mSocket;
   private User mUser;
 
@@ -54,8 +55,9 @@ public class NoteRestClient {
     mContext = context;
     mOkHttpClient = new OkHttpClient();
     mApiUrl = context.getString(R.string.api_url);
-    mNoteUrl = mApiUrl.concat("/note?page=1");
+    mNoteUrl = mApiUrl.concat("/note?page=");
     mAuthUrl = mApiUrl.concat("/api/auth");
+    mPage = 0;
     Log.d(TAG, "DocsRestClient created!");
   }
 
@@ -126,7 +128,8 @@ public class NoteRestClient {
       String mNotesLastUpdate,
       final OnSuccessListener<LastModifiedList<Doc>> successListener,
       final OnErrorListener errorListener) {
-    Request.Builder requestBuilder = new Request.Builder().url(mNoteUrl);
+    ++mPage;
+    Request.Builder requestBuilder = new Request.Builder().url(mNoteUrl + mPage);
     if (mNotesLastUpdate != null) {
       requestBuilder.header(LAST_MODIFIED, mNotesLastUpdate);
     }
@@ -141,8 +144,8 @@ public class NoteRestClient {
               return new LastModifiedList<Doc>(response.header(LAST_MODIFIED), null);
             } else {
               return new LastModifiedList<Doc>(
-                  response.header(LAST_MODIFIED),
-                  new ResourceListReader<Doc>(new NoteReader()).read(reader));
+                response.header(LAST_MODIFIED),
+                new ResourceListReader<Doc>(new NoteReader()).read(reader));
             }
           }
         },

@@ -41,7 +41,7 @@ public class Doc {
 
   public String getTitle() { return mTitle; }
 
-  public String getdate() { return mDate; }
+  public String getDate() { return mDate; }
 
   public void setText(String text) {
     mText = text;
