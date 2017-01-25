@@ -68,10 +68,6 @@ public class DocsDetailFragment extends Fragment {
             mAppBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
             mDoc.setId(getArguments().getString(NOTE_ID));
         }
-        Log.d("ID?", Boolean.toString(getArguments().containsKey(NOTE_ID)));
-        Log.d("Text?", Boolean.toString(getArguments().containsKey(TEXT)));
-        Log.d("Date?", Boolean.toString(getArguments().containsKey(DATE)));
-
         if(getArguments().containsKey(TEXT)) {
             mDoc.setText(getArguments().getString(TEXT));
         }
@@ -86,13 +82,6 @@ public class DocsDetailFragment extends Fragment {
         Log.d(TAG, "onCreateView");
         View rootView = inflater.inflate(R.layout.note_detail, container, false);
         mNoteTextView = (TextView) rootView.findViewById(R.id.note_text);
-
-        if(getArguments().containsKey(TEXT)) {
-            mDoc.setText(getArguments().getString(TEXT));
-        }
-        if(getArguments().containsKey(DATE)) {
-            mDoc.setDate(getArguments().getString(DATE));
-        }
         fillNoteDetails();
         return rootView;
     }
