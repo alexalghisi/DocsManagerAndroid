@@ -47,7 +47,7 @@ public class NoteRestClient {
   private final String mNoteUrl;
   private final Context mContext;
   private final String mAuthUrl;
-  private Integer mPage;
+  public Integer mPage; // If failed --
   private Socket mSocket;
   private User mUser;
 

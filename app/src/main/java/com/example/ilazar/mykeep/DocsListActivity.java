@@ -1,11 +1,13 @@
 package com.example.ilazar.mykeep;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -102,7 +104,10 @@ public class DocsListActivity extends AppCompatActivity {
     private void setupToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setTitle(getTitle());
+        if(isOnline())
+            toolbar.setTitle("Online");
+        else
+            toolbar.setTitle("Offline");
     }
 
     private void setupFloatingActionBar() {
@@ -113,9 +118,6 @@ public class DocsListActivity extends AppCompatActivity {
                 Context context = view.getContext();
                 Intent intent = new Intent(context, DocsAddActivity.class);
                 context.startActivity(intent);
-
-                /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();*/
             }
         });
     }
@@ -137,18 +139,12 @@ public class DocsListActivity extends AppCompatActivity {
                     visibleItemCount = mLayoutManager.getChildCount();
                     totalItemCount = mLayoutManager.getItemCount();
                     pastVisiblesItems = mLayoutManager.findFirstVisibleItemPosition();
-                    //Log.d("LEFT ::: ", Integer.toString(visibleItemCount + pastVisiblesItems));
-                    //Log.d("RIGHT ::: ", Integer.toString(totalItemCount));
-
-                    if (true)
+                    if ( (visibleItemCount + pastVisiblesItems) >= totalItemCount)
                     {
-                        if ( (visibleItemCount + pastVisiblesItems) >= totalItemCount)
-                        {
-                            loading = false;
-                            Log.v("... ... ...", "Last Item Wow !");
-                            startGetDocsAsyncCall();
-                            //Do pagination.. i.e. fetch new data
-                        }
+                        loading = false;
+                        Log.v("... ... ...", "Last Item Wow !");
+                        startGetDocsAsyncCall();
+                        //Do pagination.. i.e. fetch new data
                     }
                 }
             }
@@ -237,7 +233,16 @@ public class DocsListActivity extends AppCompatActivity {
         if (mContentLoadingView.getVisibility() == View.VISIBLE) {
             mContentLoadingView.setVisibility(View.GONE);
         }
-        DialogUtils.showError(this, e);
+        new AlertDialog.Builder(this)
+                .setTitle("Loading failed")
+                .setMessage(e.getMessage())
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Try again !!
+                        startGetDocsAsyncCall();
+                    }
+                })
+                .show();
     }
 
     private void showLoadingIndicator() {

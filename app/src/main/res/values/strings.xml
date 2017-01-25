@@ -1,5 +1,5 @@
 <resources>
-  <string name="app_name">DocsManager</string>
+  <string name="app_name">NoteManager</string>
   <string name="title_note_detail">Doc Detail</string>
   <string name="api_url">http://10.0.2.2:3000</string>
   <string name="title_activity_login">LoginActivity</string>
