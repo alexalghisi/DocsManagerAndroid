@@ -2,7 +2,6 @@ package com.example.ilazar.mykeep;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,9 +13,6 @@ import android.widget.TextView;
 
 import com.example.ilazar.mykeep.content.Doc;
 import com.example.ilazar.mykeep.util.Cancellable;
-import com.example.ilazar.mykeep.util.DialogUtils;
-import com.example.ilazar.mykeep.util.OnErrorListener;
-import com.example.ilazar.mykeep.util.OnSuccessListener;
 
 /**
  * A fragment representing a single Doc detail screen.
@@ -39,7 +35,7 @@ public class DocsDetailFragment extends Fragment {
      */
     private Doc mDoc;
 
-    private KeepApp mApp;
+    private NoteManager mApp;
 
     private Cancellable mFetchNoteAsync;
     private TextView mNoteTextView;
@@ -56,7 +52,7 @@ public class DocsDetailFragment extends Fragment {
     public void onAttach(Context context) {
         Log.d(TAG, "onAttach");
         super.onAttach(context);
-        mApp = (KeepApp) context.getApplicationContext();
+        mApp = (NoteManager) context.getApplicationContext();
     }
 
     @Override

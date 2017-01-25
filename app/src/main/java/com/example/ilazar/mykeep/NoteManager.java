@@ -7,8 +7,8 @@ import com.example.ilazar.mykeep.net.NoteRestClient;
 import com.example.ilazar.mykeep.net.NoteSocketClient;
 import com.example.ilazar.mykeep.service.DocsManager;
 
-public class KeepApp extends Application {
-  public static final String TAG = KeepApp.class.getSimpleName();
+public class NoteManager extends Application {
+  public static final String TAG = NoteManager.class.getSimpleName();
   private DocsManager mDocsManager;
   private NoteRestClient mNoteRestClient;
   private NoteSocketClient mNoteSocketClient;

@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.support.annotation.IntegerRes;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -51,7 +50,7 @@ public class DocsListActivity extends AppCompatActivity {
     /**
      * Reference to the singleton app used to access the app state and logic.
      */
-    private KeepApp mApp;
+    private NoteManager mApp;
     private Context mContext;
 
     /**
@@ -73,7 +72,7 @@ public class DocsListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "onCreate");
         super.onCreate(savedInstanceState);
-        mApp = (KeepApp) getApplication();
+        mApp = (NoteManager) getApplication();
         mContext = getApplicationContext();
         mNote = new ArrayList<>();
         setContentView(R.layout.activity_note_list);

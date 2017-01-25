@@ -151,7 +151,7 @@
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="1fb143a52e10e90a4b31d8591ab28499115ad0d3">
+        sha1="d6d0144074e1d80b32f59f37a1e81cdbb1710799">
         <dex dex="/home/alessandro/Facultate/Mobile/Docs/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_baff733f84e80392b13742db659dabba5a1ee65a/classes.dex" />
     </item>
     <item

@@ -24,14 +24,14 @@ public class DocsAddActivity extends AppCompatActivity {
     /**
      * Reference to the singleton app used to access the app state and logic.
      */
-    private KeepApp mApp;
+    private NoteManager mApp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_docs_add);
         setupToolbar();
-        mApp = (KeepApp) getApplication();
+        mApp = (NoteManager) getApplication();
 
         final Button button = (Button) findViewById(R.id.add_button);
         button.setOnClickListener(new View.OnClickListener() {
