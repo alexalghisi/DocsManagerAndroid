@@ -5,7 +5,7 @@ import android.util.JsonWriter;
 import com.example.ilazar.mykeep.content.Doc;
 
 import static com.example.ilazar.mykeep.net.mapping.Api.Note.TEXT;
-import static com.example.ilazar.mykeep.net.mapping.Api.Note.TITLE;
+import static com.example.ilazar.mykeep.net.mapping.Api.Note.DATE;
 import static com.example.ilazar.mykeep.net.mapping.Api.Note.USER_ID;
 import static com.example.ilazar.mykeep.net.mapping.Api.Note.VERSION;
 
@@ -19,7 +19,7 @@ public class DocsWriter implements ResourceWriter<Doc, JsonWriter> {
   public void write(Doc doc, JsonWriter writer) throws IOException {
     writer.beginObject();
     {
-      writer.name(TITLE).value(doc.getTitle());
+      writer.name(DATE).value(doc.getdate());
       writer.name(TEXT).value(doc.getText());
       writer.name(VERSION).value(doc.getVersion());
       writer.name(USER_ID).value(doc.getUserId());

@@ -9,7 +9,7 @@ import java.io.IOException;
 
 import static com.example.ilazar.mykeep.net.mapping.Api.Note.STATUS;
 import static com.example.ilazar.mykeep.net.mapping.Api.Note.TEXT;
-import static com.example.ilazar.mykeep.net.mapping.Api.Note.TITLE;
+import static com.example.ilazar.mykeep.net.mapping.Api.Note.DATE;
 import static com.example.ilazar.mykeep.net.mapping.Api.Note.UPDATED;
 import static com.example.ilazar.mykeep.net.mapping.Api.Note.USER_ID;
 import static com.example.ilazar.mykeep.net.mapping.Api.Note.VERSION;
@@ -28,8 +28,8 @@ public class NoteReader implements ResourceReader<Doc, JsonReader> {
         doc.setId(reader.nextString());
       } else if (name.equals(TEXT)) {
         doc.setText(reader.nextString());
-      } else if (name.equals(TITLE)) {
-        doc.setTitle(reader.nextString());
+      } else if (name.equals(DATE)) {
+        doc.setDate(reader.nextString());
       } else if (name.equals(STATUS)) {
         doc.setStatus(Doc.Status.valueOf(reader.nextString()));
       } else if (name.equals(UPDATED)) {

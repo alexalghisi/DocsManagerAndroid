@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 
+import com.example.ilazar.mykeep.content.Doc;
 import com.example.ilazar.mykeep.content.User;
 
 public class KeepDatabase extends SQLiteOpenHelper {
@@ -46,6 +47,12 @@ public class KeepDatabase extends SQLiteOpenHelper {
     SQLiteDatabase db = getWritableDatabase();
     db.insert(TABLE_USERS, null, cv);
     db.close();
+  }
+
+  public void saveDoc(Doc doc) {
+    SQLiteDatabase db = getWritableDatabase();
+
+
   }
 
   @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)

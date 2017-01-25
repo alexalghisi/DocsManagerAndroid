@@ -11,6 +11,7 @@ public class Doc {
   private String mUserId;
   private String mText;
   private String mTitle;
+  private String mDate;
   private Status mStatus = Status.active;
   private long mUpdated;
   private int mNersion;
@@ -40,11 +41,15 @@ public class Doc {
 
   public String getTitle() { return mTitle; }
 
+  public String getdate() { return mDate; }
+
   public void setText(String text) {
     mText = text;
   }
 
   public void setTitle(String title) { mTitle = title; }
+
+  public void setDate(String date) { mDate = date; }
 
   public Status getStatus() {
     return mStatus;

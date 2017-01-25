@@ -1,6 +1,8 @@
 package com.example.ilazar.mykeep.service;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.Log;
 
 import com.example.ilazar.mykeep.content.Doc;
@@ -16,6 +18,8 @@ import com.example.ilazar.mykeep.util.CancellableCallable;
 import com.example.ilazar.mykeep.util.OnErrorListener;
 import com.example.ilazar.mykeep.util.OnSuccessListener;
 
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

@@ -44,7 +44,7 @@ public class NoteRestClient {
 
   private final OkHttpClient mOkHttpClient;
   private final String mApiUrl;
-  private final String mDocsUrl;
+  private final String mNoteUrl;
   private final Context mContext;
   private final String mAuthUrl;
   private Socket mSocket;
@@ -54,7 +54,7 @@ public class NoteRestClient {
     mContext = context;
     mOkHttpClient = new OkHttpClient();
     mApiUrl = context.getString(R.string.api_url);
-    mDocsUrl = mApiUrl.concat("/api/docs");
+    mNoteUrl = mApiUrl.concat("/note?page=1");
     mAuthUrl = mApiUrl.concat("/api/auth");
     Log.d(TAG, "DocsRestClient created!");
   }
@@ -92,7 +92,7 @@ public class NoteRestClient {
   }
 
   public OkHttpCancellableCallable<LastModifiedList<Doc>> search(String mNotesLastUpdate) {
-    Request.Builder requestBuilder = new Request.Builder().url(mDocsUrl);
+    Request.Builder requestBuilder = new Request.Builder().url(mNoteUrl);
     if (mNotesLastUpdate != null) {
       requestBuilder.header(LAST_MODIFIED, mNotesLastUpdate);
     }
@@ -126,7 +126,7 @@ public class NoteRestClient {
       String mNotesLastUpdate,
       final OnSuccessListener<LastModifiedList<Doc>> successListener,
       final OnErrorListener errorListener) {
-    Request.Builder requestBuilder = new Request.Builder().url(mDocsUrl);
+    Request.Builder requestBuilder = new Request.Builder().url(mNoteUrl);
     if (mNotesLastUpdate != null) {
       requestBuilder.header(LAST_MODIFIED, mNotesLastUpdate);
     }
@@ -166,7 +166,7 @@ public class NoteRestClient {
     }
 
     Request.Builder builder = new Request.Builder()
-            .url(String.format("%s/add", mDocsUrl))
+            .url(String.format("%s/add", mNoteUrl))
             .post(RequestBody.create(MediaType.parse(APPLICATION_JSON), baos.toByteArray()));
 
     return new CancellableOkHttpAsync<Doc>(
@@ -190,7 +190,7 @@ public class NoteRestClient {
   public Cancellable readAsync(String noteId,
                                final OnSuccessListener<Doc> successListener,
                                final OnErrorListener errorListener) {
-    Request.Builder builder = new Request.Builder().url(String.format("%s/%s", mDocsUrl, noteId));
+    Request.Builder builder = new Request.Builder().url(String.format("%s", mNoteUrl));
     addAuthToken(builder);
     return new CancellableOkHttpAsync<Doc>(
         builder.build(),
@@ -223,7 +223,7 @@ public class NoteRestClient {
       errorListener.onError(new ResourceException(e));
     } finally {
       Request.Builder builder = new Request.Builder()
-          .url(String.format("%s/%s", mDocsUrl, doc.getId()))
+          .url(String.format("%s/%s", mNoteUrl, doc.getId()))
           .put(RequestBody.create(MediaType.parse(APPLICATION_JSON), baos.toByteArray()));
       addAuthToken(builder);
       return new CancellableOkHttpAsync<Doc>(

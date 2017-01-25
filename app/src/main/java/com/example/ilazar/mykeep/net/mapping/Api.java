@@ -6,9 +6,9 @@ public class Api {
     public static final String NOTE_CREATED = "note/created";
     public static final String NOTE_UPDATED = "note/updated";
     public static final String NOTE_DELETED = "note/deleted";
-    public static final String _ID = "_id";
+    public static final String _ID = "id";
     public static final String TEXT = "text";
-    public static final String TITLE = "title";
+    public static final String DATE = "date";
     public static final String STATUS = "status";
     public static final String UPDATED = "updated";
     public static final String USER_ID = "user";

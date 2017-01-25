@@ -2,6 +2,8 @@ package com.example.ilazar.mykeep;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -47,6 +49,7 @@ public class DocsListActivity extends AppCompatActivity {
      * Reference to the singleton app used to access the app state and logic.
      */
     private KeepApp mApp;
+    private Context mContext;
 
     /**
      * Reference to the last async call used for cancellation.
@@ -60,6 +63,7 @@ public class DocsListActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate");
         super.onCreate(savedInstanceState);
         mApp = (KeepApp) getApplication();
+        mContext = getApplicationContext();
         setContentView(R.layout.activity_note_list);
         setupToolbar();
         setupFloatingActionBar();
@@ -71,7 +75,7 @@ public class DocsListActivity extends AppCompatActivity {
     protected void onStart() {
         Log.d(TAG, "onStart");
         super.onStart();
-        startGetNotesAsyncCall();
+        startGetDocsAsyncCall();
         mApp.getNoteManager().subscribeChangeListener();
     }
 
@@ -120,37 +124,43 @@ public class DocsListActivity extends AppCompatActivity {
         }
     }
 
-    private void startGetNotesAsyncCall() {
+    private void startGetDocsAsyncCall() {
         if (mNotesLoaded) {
             Log.d(TAG, "start getNotesAsyncCall - content already loaded, return");
             return;
         }
         showLoadingIndicator();
-        mGetNotesAsyncCall = mApp.getNoteManager().getNotesAsync(
-                new OnSuccessListener<List<Doc>>() {
-                    @Override
-                    public void onSuccess(final List<Doc> docs) {
-                        Log.d(TAG, "getNotesAsyncCall - success");
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                showContent(docs);
-                            }
-                        });
+        if (isOnline()) {
+            // Load from server and update database.
+            mGetNotesAsyncCall = mApp.getNoteManager().getNotesAsync(
+                    new OnSuccessListener<List<Doc>>() {
+                        @Override
+                        public void onSuccess(final List<Doc> docs) {
+                            Log.d(TAG, "getNotesAsyncCall - success");
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    showContent(docs);
+                                }
+                            });
+                        }
+                    }, new OnErrorListener() {
+                        @Override
+                        public void onError(final Exception e) {
+                            Log.d(TAG, "getNotesAsyncCall - error");
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    showError(e);
+                                }
+                            });
+                        }
                     }
-                }, new OnErrorListener() {
-                    @Override
-                    public void onError(final Exception e) {
-                        Log.d(TAG, "getNotesAsyncCall - error");
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                showError(e);
-                            }
-                        });
-                    }
-                }
-        );
+            );
+        } else {
+            // Load from local storage.
+            Log.d("Device", " NOT ONLINE !!!");
+        }
     }
 
 
@@ -202,7 +212,7 @@ public class DocsListActivity extends AppCompatActivity {
         public void onBindViewHolder(final ViewHolder holder, int position) {
             holder.mItem = mValues.get(position);
             holder.mIdView.setText(mValues.get(position).getId());
-            holder.mContentView.setText(mValues.get(position).getTitle());
+            holder.mContentView.setText(mValues.get(position).getText());
 
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -248,5 +258,11 @@ public class DocsListActivity extends AppCompatActivity {
                 return super.toString() + " '" + mContentView.getText() + "'";
             }
         }
+    }
+
+    public boolean isOnline() {
+        ConnectivityManager connMgr = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        return (networkInfo != null && networkInfo.isConnected());
     }
 }
